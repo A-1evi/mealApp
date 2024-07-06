@@ -51,14 +51,21 @@ async function showMealDetails(mealId) {
     const meal = await fetchMealById(mealId);
     const mealDetailContainer = document.getElementById('meal-detail');
     
+    let ingredients = '';
+    for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+        if (ingredient && ingredient.trim() !== '') {
+            ingredients += `<li>${ingredient} - ${measure}</li>`;
+        }
+    }
+    
     mealDetailContainer.innerHTML = `
         <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="w-full h-64 object-cover rounded-lg">
         <h2 class="text-2xl mt-4">${meal.strMeal}</h2>
         <p class="mt-2">${meal.strInstructions}</p>
         <ul class="mt-2">
-            ${meal.strIngredient1 ? `<li>${meal.strIngredient1} - ${meal.strMeasure1}</li>` : ''}
-            ${meal.strIngredient2 ? `<li>${meal.strIngredient2} - ${meal.strMeasure2}</li>` : ''}
-            ${meal.strIngredient3 ? `<li>${meal.strIngredient3} - ${meal.strMeasure3}</li>` : ''}
+            ${ingredients}
         </ul>
     `;
 
